@@ -21,6 +21,10 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Run migrations
+      run: |
+        python manage.py migrate
+
     - name: Run Django check
       run: |
         python manage.py check
