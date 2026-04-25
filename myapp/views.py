@@ -12,43 +12,25 @@ from .models import Myevent, Myprofile, Bookevent, Saved_event, Notification, Me
 from .models import Follow, Like
 
 def home(request):
-    events = cache.get('home_events')
-
-    if not events:
-        events = list(Myevent.objects.all().order_by('-id'))
-        cache.set('home_events', events, 60)
+    events = Myevent.objects.all().order_by('-id')
 
     booked_events = []
 
     if request.user.is_authenticated:
-        cache_key = f'home_booked_events_{request.user.id}'
-        booked_events = cache.get(cache_key)
+        booked_events = Bookevent.objects.filter(
+            customer=request.user
+        ).values_list('event_id', flat=True)
 
-        if booked_events is None:
-            booked_events = list(
-                Bookevent.objects.filter(customer=request.user)
-                .values_list('event_id', flat=True)
-            )
-            cache.set(cache_key, booked_events, 60)
-    
+    # delete event (fixed POST logic)
     if request.method == 'POST':
-        event_id = request.POST.get('event_id') 
-        event = get_object_or_404(Myevent, id=id)
-        # Delete the event from the database
+        event_id = request.POST.get('event_id')
+
+        event = get_object_or_404(Myevent, id=event_id)
         event.delete()
-
-        # Invalidate the cache
-        cache.delete(cache_key)  # Delete the cache for the specific event
-        
-        # If the event was in the general event list cache, invalidate that too
-        cache.delete(f'event_detail{event_id}')
-        cache.delete('home_events')  # Invalidate the cache for the home events list
-        cache.delete(f'home_booked_events_{request.user.id}')
-
 
     return render(request, 'home.html', {
         'events': events,
-        'booked_events': booked_events, 
+        'booked_events': booked_events,
     })
 
 @login_required
