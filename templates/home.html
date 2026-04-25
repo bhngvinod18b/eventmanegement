@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Events</title>
+
+    <style>
+        body { font-family: Arial; background: #f5f7fa; }
+        header { background: #333; color: white; padding: 15px; text-align: center; }
+
+        .nav { text-align: center; margin: 10px; }
+        .nav a { margin: 0 8px; text-decoration: none; color: blue; }
+
+        .container { width: 80%; margin: auto; }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .book { background: green; }
+        .cancel { background: red; }
+        .save { background: orange; }
+        .delete { background: black; }
+        .message-btn { background: #007bff; }
+
+        .msg { text-align: center; color: green; }
+        .full { color: red; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>All Events</h1>
+</header>
+
+<div class="nav">
+    {% if user.is_authenticated %}
+        Hi {{ user.username }} |
+        <a href="{% url 'logout' %}">Logout</a> |
+        <a href="{% url 'profile' %}">Profile</a> |
+        <a href="{% url 'add_event' %}">Add Event</a> |
+        <a href="{% url 'inbox' %}">Inbox</a> |
+        <a href="{% url 'search_event' %}">Search</a> |
+        <a href="{% url 'notifications' %}">Notifications</a> |
+        <a href="{% url 'my_saved' %}">Saved</a> |
+        <a href="{% url 'my_bookings' %}">Bookings</a> |
+        <a href="{% url 'my_activity' %}">Activity</a> |
+        <a href="{% url 'track_event' %}">Track</a> |
+        <a href="{% url 'settings' %}">Dashboard</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+</div>
+
+<div class="msg">
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+
+{% for event in events %}
+    <div class="card">
+        <h3>{{ event.event }}</h3>
+        <p><strong>By:</strong> {{ event.author.username }}</p>
+        <p><strong>Address:</strong> {{ event.adress }}</p>
+        <p><strong>Phone:</strong> {{ event.phone }}</p>
+        <p><strong>About:</strong> {{ event.about }}</p>
+        <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+        <p><strong>Remaining:</strong> {{ event.remaining_capacity }}</p>
+
+        {% if user.is_authenticated %}
+
+            {% if event.author == user %}
+                <span style="color:gray;">Your Event</span>
+                <a href="{% url 'delete_event' event.id %}" class="btn delete">Delete</a>
+
+            {% else %}
+
+                {% if event.remaining_capacity > 0 %}
+                    {% if event.id in booked_events %}
+                        <a href="{% url 'book_event' event.id %}" class="btn cancel">
+                            Cancel Booking
+                        </a>
+                    {% else %}
+                        <a href="{% url 'book_event' event.id %}" class="btn book">
+                            Book Event
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <span class="full">Event Full</span>
+                {% endif %}
+
+                <a href="{% url 'saved_event' event.id %}" class="btn save">
+                    Save
+                </a>
+
+                <a href="{% url 'send_messages' event.author.id %}" class="btn message-btn">
+                    Message
+                </a>
+
+            {% endif %}
+
+        {% endif %}
+    </div>
+{% empty %}
+    <p style="text-align:center;">No events available.</p>
+{% endfor %}
+
+</div>
+
+{% if user.is_authenticated %}
+
+{% endif %}
+
+</body>
+</html>

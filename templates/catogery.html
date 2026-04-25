@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top Categories</title>
+</head>
+<body>
+
+    <h1>🔥 Top Categories</h1>
+
+    {% if top_catogery_event %}
+        <table border="1">
+            <tr>
+                <th>Category</th>
+                <th>Total Events</th>
+            </tr>
+
+            {% for item in top_catogery_event %}
+            <tr>
+                <td>{{ item.catogery }}</td>
+                <td>{{ item.total_event }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No categories found.</p>
+    {% endif %}
+
+</body>
+</html>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: auto;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #333;
+        color: white;
+    }
+</style>

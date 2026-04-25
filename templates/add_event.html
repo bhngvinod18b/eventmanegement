@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Event</title>
+    <style>
+        body { font-family: Arial; background: #f5f7fa; }
+        .container { width: 400px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+        input, select, textarea, button { width: 100%; padding: 8px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: green; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Event</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Event Name</label>
+        <input type="text" name="event" required>
+
+        <label>Address</label>
+        <input type="text" name="adress" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" required>
+        <label>capacity</label>
+        <input type="number" name="capacity" required>
+ 
+        <label>About</label>
+        <textarea name="about" rows="3" required></textarea>
+
+        <label>Category</label>
+        <select name="catogery" required>
+            <option value="">-- Select Category --</option>
+            <option value="MUSIC">MUSIC</option>
+            <option value="SPORTS">SPORTS</option>
+            <option value="SCHOOL">SCHOOL</option>
+            <option value="WORKSHOP">WORKSHOP</option>
+        </select>
+
+        <button type="submit">Add Event</button>
+    </form>
+</div>
+
+</body>
+</html>

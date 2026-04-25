@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            margin: 50px auto;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .event-info {
+            margin: 20px 0;
+            text-align: left;
+        }
+        .event-info p {
+            margin: 5px 0;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-book {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
+            color: white;
+            margin-left: 10px;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Book Event</h2>
+
+    <div class="event-info">
+        <p><strong>Event:</strong> {{ event.event }}</p>
+        <p><strong>Address:</strong> {{ event.adress }}</p>
+        <p><strong>Phone:</strong> {{ event.phone }}</p>
+        <p><strong>About:</strong> {{ event.about }}</p>
+        <p><strong>Organizer:</strong> {{ event.author.username }}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-book">Confirm Booking</button>
+        <a href="{% url 'home' %}">
+            <button type="button" class="btn btn-cancel">Cancel</button>
+        </a>
+    </form>
+</div>
+
+</body>
+</html>

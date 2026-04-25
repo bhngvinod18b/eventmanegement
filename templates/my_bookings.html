@@ -1,0 +1,81 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h3 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .card p {
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: background 0.3s;
+    }
+
+    .btn.cancel {
+        background: #e74c3c;
+    }
+
+    .btn.cancel:hover {
+        background: #c0392b;
+    }
+
+    .empty-message {
+        text-align: center;
+        color: #888;
+        font-size: 18px;
+        margin-top: 50px;
+    }
+</style>
+
+<div class="container">
+    {% for booking in bookings %}
+        <div class="card">
+            <h3>{{ booking.event.event }}</h3>
+            <p><strong>Organizer:</strong> {{ booking.event.author.username }}</p>
+            <p><strong>Address:</strong> {{ booking.event.adress }}</p>
+            <p><strong>Phone:</strong> {{ booking.event.phone }}</p>
+            <p><strong>About:</strong> {{ booking.event.about }}</p>
+
+            <a href="{% url 'book_event' booking.event.id %}" 
+               class="btn cancel"
+               onclick="return confirm('Are you sure to cancel this booking?')">
+               Cancel Booking
+            </a>
+        </div>
+    {% empty %}
+        <p class="empty-message">No bookings found.</p>
+    {% endfor %}
+    <a href="{% url 'home' %}">back to home</a>
+</div>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notifications</title>
+    <style>
+        body { font-family: Arial; background: #f5f7fa; }
+        .container { width: 800px; margin: 20px auto; }
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.2);
+        }
+        .time { color: gray; font-size: 12px; }
+        a { text-decoration: none; color: blue; margin-right: 10px; }
+        .empty { text-align: center; margin-top: 50px; color: gray; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔔 My Notifications</h2>
+
+    <a href="{% url 'home' %}">⬅ Back to Home</a>
+
+    <hr>
+
+    {% if notifications %}
+        {% for note in notifications %}
+            <div class="card">
+
+                <p>
+                    <strong>{{ note.author.username }}</strong>
+                    booked your event
+                    <strong>"{{ note.event.event }}"</strong>
+                </p>
+
+                <p class="time">{{ note.created_at }}</p>
+
+                <!-- ✅ VIEW EVENT LINK -->
+                <a href="{% url 'event_detail' note.event.id %}">View Event</a>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <p>No notifications yet </p>
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+const socket = new WebSocket("ws://127.0.0.1:8000/ws/notifications/");
+
+socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+
+    // Simple popup (you can improve UI later)
+    alert(data.text);
+
+    // OR update notification list dynamically
+    console.log("New notification:", data);
+};

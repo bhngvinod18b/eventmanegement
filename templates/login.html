@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+{% if messages %}
+    {% for msg in messages %}
+        <p style="color:red;">{{ msg }}</p>
+    {% endfor %}
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username"><br>
+    <input type="password" name="password" placeholder="Password"><br>
+    <button type="submit">Login</button>
+</form>
+<a href="{% url 'register' %}">Register</a>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #444;
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+        }
+
+        .item {
+            background: #f9fafc;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .item:hover {
+            background: #eef6ff;
+        }
+
+        .tag {
+            color: #555;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>⚙️ Settings / Analytics Dashboard</h1>
+
+    <div class="section">
+        <h2>⭐ Top Saved Events</h2>
+        {% for e in top_saved %}
+            <div class="item">
+                {{ e.event }} — <span class="tag">{{ e.saved_count }}</span>
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>📊 Top Booked Events</h2>
+        {% for e in top_users_by_bookings %}
+            <div class="item">
+                {{ e.event }} — <span class="tag">{{ e.booking_count }}</span>
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>📂 Top Categories</h2>
+        {% for c in top_categories %}
+            <div class="item">
+                {{ c.catogery }} — <span class="tag">{{ c.total }}</span>
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>🚫 No Booking Events</h2>
+        {% for e in no_booking %}
+            <div class="item">
+                {{ e.event }}
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>🔥 Full Events</h2>
+        {% for e in full_events %}
+            <div class="item">
+                {{ e.event }}
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>📈 Trending Events</h2>
+        {% for e in trending %}
+            <div class="item">
+                {{ e.event }} — <span class="tag">{{ e.trending_count }}</span>
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h2>👥 Top Users (Followers)</h2>
+        {% for u in top_users_by_followers %}
+            <div class="item">
+                {{ u.username }} — <span class="tag">{{ u.follower_count }}</span>
+            </div>
+        {% empty %}
+            <p>No data</p>
+        {% endfor %}
+        <a href="{% url 'home' %}">back to home</a> |
+
+    </div>
+
+</div>
+
+</body>
+</html>

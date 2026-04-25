@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Activity</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+            border-left: 5px solid #007bff;
+            padding-left: 10px;
+        }
+
+        .card {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card:last-child {
+            border-bottom: none;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: gray;
+        }
+
+        .empty {
+            color: gray;
+            font-style: italic;
+        }
+
+        a.btn {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        a.btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>My Activity</h2>
+
+    <!-- My Events -->
+    <div class="section">
+        <h3>My Events</h3>
+        {% for event in events %}
+            <div class="card">
+                <div class="title">{{ event.event }}</div>
+                <div class="meta">
+                    Category: {{ event.catogery }} <br>
+                    ID: {{ event.id }}
+                </div>
+                <a href="{% url 'event_detail' event.id %}" class="btn">View</a>
+            </div>
+        {% empty %}
+            <p class="empty">No events created</p>
+        {% endfor %}
+    </div>
+
+    <!-- My Bookings -->
+    <div class="section">
+        <h3>My Bookings</h3>
+        {% for booking in bookings %}
+            <div class="card">
+                <div class="title">{{ booking.event.event }}</div>
+                <div class="meta">
+                    By: {{ booking.event.author.username }} <br>
+                    Booked on: {{ booking.created_at }}
+                </div>
+                <a href="{% url 'event_detail' booking.event.id %}" class="btn">View</a>
+            </div>
+        {% empty %}
+            <p class="empty">No bookings</p>
+        {% endfor %}
+    </div>
+
+    <!-- Saved Events -->
+    <div class="section">
+        <h3>Saved Events</h3>
+        {% for s in saved %}
+            <div class="card">
+                <div class="title">{{ s.event.event }}</div>
+                <div class="meta">
+                    By: {{ s.event.author.username }} <br>
+                    Event ID: {{ s.event.id }}
+                </div>
+                <a href="{% url 'event_detail' s.event.id %}" class="btn">View</a>
+            </div>
+        {% empty %}
+            <p class="empty">No saved events</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f4f6f8; }
+        .container { max-width: 700px; margin: auto; }
+        .message { background: #fff; padding: 12px; margin-bottom: 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .sender { font-weight: bold; }
+        .text { margin: 5px 0; }
+        .time { font-size: 12px; color: gray; }
+        a { text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Inbox</h2>
+
+    {% for message in messages %}
+        <div class="message">
+            <div class="sender">{{ message.sender.username }}</div>
+            <div class="text">{{ message.text }}</div>
+            <div class="time">{{ message.created_at }}</div>
+            <a href="{% url 'send_messages' message.sender.id %}">Reply</a>
+        </div>
+    {% empty %}
+        <p>No messages</p>
+    {% endfor %}
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</div>
+
+</body>
+</html>

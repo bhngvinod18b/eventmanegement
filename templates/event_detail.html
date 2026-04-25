@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Details</title>
+</head>
+<body>
+
+<h2>{{ event.event }}</h2>
+
+<p><strong>By:</strong> {{ event.author.username }}</p>
+<p><strong>Category:</strong> {{ event.catogery }}</p>
+<p><strong>Address:</strong> {{ event.adress }}</p>
+<p><strong>Phone:</strong> {{ event.phone }}</p>
+<p><strong>About:</strong> {{ event.about }}</p>
+
+<a href="{% url 'home' %}">Back</a>
+
+</body>
+</html>

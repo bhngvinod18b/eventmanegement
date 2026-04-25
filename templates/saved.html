@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Saved Events</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+            background: #f9fbff;
+        }
+
+        .event-info {
+            font-size: 16px;
+            color: #444;
+        }
+
+        .event-info strong {
+            color: #222;
+        }
+
+        .actions a {
+            text-decoration: none;
+            margin-left: 10px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .book {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .book:hover {
+            background: #43a047;
+        }
+
+        .unsave {
+            background: #f44336;
+            color: white;
+        }
+
+        .unsave:hover {
+            background: #e53935;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            background: #333;
+            padding: 10px 15px;
+            border-radius: 8px;
+            width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back:hover {
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>⭐ My Saved Events</h1>
+
+    <ul>
+        {% for saved in saved_events %}
+        <li class="card">
+            <div class="event-info">
+                <strong>{{ saved.event.event }}</strong>
+                <br>
+                by {{ saved.event.author.username }}
+            </div>
+
+            <div class="actions">
+                <a class="book" href="{% url 'book_event' saved.event.id %}">Book</a>
+                <a class="unsave" href="{% url 'saved_event' saved.event.id %}">Unsave</a>
+            </div>
+        </li>
+        {% empty %}
+        <li>No saved events.</li>
+        {% endfor %}
+    </ul>
+
+    <a class="back" href="{% url 'home' %}">⬅ Back to Home</a>
+
+</div>
+
+</body>
+</html>
